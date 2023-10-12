@@ -1,5 +1,12 @@
 # Havoc-Agent-Handler
 
+
+[Havoc C2 Agent开发记录](https://payloads.online/archivers/2023/10/12/fda899c9-47ea-40e6-b6fc-a00600ccc9cb)
+
+![Console](./images/Console.png)
+
+![Build Agent](./images/Build.png)
+
 ## What is this?
 This is a third party agent for Havoc C2 written in golang. 
 
@@ -30,5 +37,4 @@ sudo pip install -r requirements
 ## Usage
 1. start Havoc teamserver
 2. python handler.py
-
 
