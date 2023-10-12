@@ -5,6 +5,12 @@ This is a third party agent for Havoc C2 written in golang.
 
 ## Features
 
+support operating systems:
+
+- Windows
+- Linux
+- MacOS
+
 It currently only supports 4 commands:
 
 - shell {system command}
