@@ -3,7 +3,7 @@
 
 [Havoc C2 Agent开发记录](https://payloads.online/archivers/2023/10/12/fda899c9-47ea-40e6-b6fc-a00600ccc9cb)
 
-![Console](./images/Console.png)
+![Client](./images/Client.png)
 
 ![Build Agent](./images/Build.png)
 
