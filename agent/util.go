@@ -40,7 +40,6 @@ func PostWithHeaders(body []byte) ([]byte, error) {
 	uri := GetRandomItem(OptionsConfig.Listener.Uris)
 	url := fmt.Sprintf("%s%s:%s/%s", protocol, host, port, uri)
 	portInt, _ := strconv.Atoi(port)
-
 	transport := &http.Transport{
 		Dial: func(network, addr string) (net.Conn, error) {
 			// 替换为您的目标 IP 地址和端口
